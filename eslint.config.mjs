@@ -10,9 +10,12 @@ export default [
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   eslintConfigPrettier,
-  { ...playwrightEslint.configs['flat/recommended'], files: ['tests/**'] },
   {
-    files: ['tests/**'],
+    ...playwrightEslint.configs['flat/recommended'],
+    files: ['e2e/**/*.{spec,test}.{js,ts}', 'tests/**/*.{spec,test}.{js,ts}'],
+  },
+  {
+    files: ['e2e/**/*.{spec,test}.{js,ts}', 'tests/**/*.{spec,test}.{js,ts}'],
     rules: {
       'playwright/max-expects': ['error', { max: 10 }],
     },

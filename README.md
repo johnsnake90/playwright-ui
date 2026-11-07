@@ -1,124 +1,60 @@
-# pwts-base-setup
+# Playwright UI Tests
 
-This is a base setup for Playwright with TypeScript, proudly presented by the [<pwts.dev>](https://pwts.dev/) team, designed to help you kickstart your end-to-end testing journey with best practices and ease of use. With this setup, you'll have a solid foundation to create fast, reliable, and maintainable automated tests, empowering you to deliver high-quality software efficiently.
+This repository is an end-to-end browser testing project built with Playwright and TypeScript. The tests in `e2e/` interact with web pages in a real browser, and the current Playwright configuration runs them in Chromium.
 
-It includes all necessary configurations and dependencies to get started with automated testing using Playwright and TypeScript, ensuring a seamless setup process and enabling you to focus on writing efficient and robust test cases right from the start.
+## Getting started
 
-## Prerequisites
+You need Node.js 20 or later and npm.
 
-Before you start, make sure you have the following installed:
+```sh
+npm install
+npx playwright install chromium
+```
 
-- [Node.js](https://nodejs.org) (v20 or later)
-- [npm](https://www.npmjs.com/)
+## Running tests
 
-## Setup
+Run the full suite with:
 
-1. Clone the repository:
+```sh
+npm test
+```
 
-   ```bash
-   git clone https://github.com/pwtsdev/base-setup.git
-   cd base-setup
-   ```
+Before running Playwright, `npm test` automatically runs the `pretest` checks: TypeScript type-checking (`tsc --noEmit`) and ESLint. Other scripts below run their own Playwright command without automatically running `pretest`.
 
-2. Install dependencies:
+| Command | What it does |
+| --- | --- |
+| `npm run test:headed` | Runs tests with the browser window visible. |
+| `npm run test:debug` | Runs tests in Playwright's debug mode. |
+| `npm run test:ui` | Opens Playwright's interactive test runner. |
+| `npm run test:pwbasic` | Runs tests tagged `@pwbasic`. |
+| `npm run test:pwbasic:headed` | Runs tests tagged `@pwbasic` with the browser visible. |
+| `npm run test:nolint` | Runs the Playwright suite without the `pretest` checks. |
+| `npm run show-report` | Opens the HTML report from the most recent run. |
 
-   ```bash
-   npm install
-   ```
+You can also use the Playwright CLI to run one file or filter tests by title:
 
-## Dependencies
+```sh
+npx playwright test e2e/the-internet/home-page.spec.ts
+npx playwright test --grep "home page"
+```
 
-The project includes the following dependencies:
+For more ways to select and run tests, see the [Playwright test-running guide](guides/running-playwright-tests.md).
 
-- `@eslint/js`
-- `@faker-js/faker`
-- `@playwright/test`
-- `@types/node`
-- `eslint`
-- `eslint-config-prettier`
-- `eslint-plugin-playwright`
-- `prettier`
-- `typescript`
-- `typescript-eslint`
-- `dotenv`
-- `tslog`
+## What lint checks
 
-## Scripts
+ESLint checks JavaScript and TypeScript across the repository. Its TypeScript rules help catch issues such as floating promises, invalid `await` usage, unsafe values, and inconsistent naming or type conventions. It also warns about `console` calls.
 
-The `package.json` file includes several scripts to help you run and manage your tests:
+For Playwright `.spec` and `.test` files under `e2e/` and `tests/`, the Playwright ESLint rules check test-specific practices. They detect problems such as missing `await` on Playwright operations, invalid expectations or titles, and accidentally focused tests. They also flag patterns that can make tests brittle or misleading, including conditional assertions, forced actions, fixed-time waits, and non-web-first assertions. Tests are limited to ten `expect` calls each.
 
-- `pretest`: Runs TypeScript compiler without emitting files and lints the code using ESLint.
-- `test`: Runs all Playwright tests.
-- `test:headed`: Runs all Playwright tests in headed mode.
-- `test:debug`: Runs all Playwright tests in debug mode.
-- `test:ui`: Opens the Playwright test runner UI.
-- `test:nolint`: Runs all Playwright tests without linting.
-- `show-report`: Opens the Playwright test report.
+Some Playwright checks are warnings; more serious correctness checks and the assertion limit are errors. The rules are configured in `eslint.config.mjs`.
 
-## Running Tests
+## Project files
 
-To run the tests, you can use the following commands:
-
-1. Install dependencies:
-
-   ```sh
-   npm install
-   ```
-
-2. Run all tests:
-
-   ```sh
-   npm run test
-   ```
-
-3. Run tests in headed mode:
-
-   ```sh
-   npm run test:headed
-   ```
-
-4. Run tests in debug mode:
-
-   ```sh
-   npm run test:debug
-   ```
-
-5. Open the Playwright test runner UI:
-
-   ```sh
-   npm run test:ui
-   ```
-
-6. Run tests without linting:
-
-   ```sh
-   npm run test:nolint
-   ```
-
-7. Show the Playwright test report:
-
-   ```sh
-   npm run show-report
-   ```
-
-## Configuration
-
-The project is configured to use Prettier and ESLint for code formatting and linting. The configuration files are located in the `.vscode` directory and the root of the project:
-
-- `settings.json`: Contains VS Code settings for auto-saving, formatting, and linting.
-- `extensions.json`: Recommends extensions for VS Code.
-- `tsconfig.json`: TypeScript configuration file.
-- `.prettierignore`: Files and directories to ignore for Prettier.
-- `.gitignore`: Files and directories to ignore for Git.
+- `e2e/` - Playwright end-to-end tests.
+- `guides/` - Guides for running and working with the tests.
+- `playwright.config.ts` - Test discovery, browser projects, and reporting configuration.
+- `eslint.config.mjs` - JavaScript, TypeScript, and Playwright lint rules.
 
 ## License
 
 This project is licensed under the ISC License.
-
-## Fun Facts
-
-Did you know? Debugging is like being the detective in a crime movie where you are also the murderer 🕵️‍♂️
-
-Happy hacking!
-
-[<pwts.dev>](https://pwts.dev/) team [@bkita](https://github.com/bkita) and [@mkusz](https://github.com/mkusz).
