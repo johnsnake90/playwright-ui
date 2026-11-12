@@ -19,6 +19,6 @@ test.describe('The Internet - locators', () => {
     await passwordInput.fill('password');
     await loginButton.click();
 
-    await expect(page.getByText('Your usename is invalid!')).toBeVisible();
+    await expect(page.getByText('Your username is invalid!')).toBeVisible();
   });
 });
