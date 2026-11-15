@@ -20,5 +20,5 @@ test.describe('Basic examples', () => {
 
     await expect(page.getByText('Some rudimentary examples include')).toBeVisible();
 
-  })
-})
+  });
+});

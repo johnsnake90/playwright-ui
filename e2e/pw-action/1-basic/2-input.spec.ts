@@ -11,5 +11,5 @@ test.describe('Basic examples', () => {
 
     await expect(page.getByText('Login Page')).toBeVisible();
 
-  })
-})
+  });
+});
